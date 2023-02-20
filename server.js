@@ -1,6 +1,28 @@
+const mongoose = require('mongoose');
+
+require('dotenv').config({ path: './config.env' });
 const app = require('./app');
 
-const port = 8000;
+// console.log(process.env);
+const DB = process.env.MONGO_URI.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD
+);
+mongoose.set('strictQuery', false);
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((con) => {
+    console.log('Connected Succesfully');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+//PORTS AND LISTENERS
+const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
   console.log(`Listening on port http://localhost:${port}`);

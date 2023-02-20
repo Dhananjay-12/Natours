@@ -1,14 +1,16 @@
-const fs = require('fs');
 const express = require('express');
 const app = express();
+const morgan = require('morgan');
 
-const tours = fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`);
-app.get('/api/v1/tours', (req, res) => {
-  res.send(tours);
-});
+const tourRouter = require('./routes/tourRoutes');
+const userRouter = require('./routes/userRoutes');
 
-const port = 8000;
+if (process.env.NODE_ENV === 'developement') app.use(morgan('dev'));
 
-app.listen(port, () => {
-  console.log(`Listening on port http://localhost:${port}`);
-});
+app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+
+module.exports = app;
