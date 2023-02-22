@@ -7,9 +7,11 @@ const {
   createTour,
   updateTour,
   deleteTour,
-
+  getAliasTour,
   checkBody,
 } = require('./../controllers/tourController');
+
+router.route('/top-5-cheap-tours').get(getAliasTour, getAllTours);
 
 //ALL TOURS
 
