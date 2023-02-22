@@ -114,7 +114,7 @@ const deleteTour = async (req, res) => {
       message: 'Deleted Successfully',
       data: 'NULL',
     });
-  } catch (error) {
+  } catch (err) {
     res.status(400).json({
       status: 'Fail',
       message: err.message,
@@ -122,6 +122,35 @@ const deleteTour = async (req, res) => {
   }
 };
 
+const getTourStats = async (req, res) => {
+  try {
+    const stats = await Tour.aggregate([
+      {
+        $match: { ratingsAverage: { $gte: 4.5 } },
+      },
+      {
+        $group: {
+          _id: null,
+          avgRating: { $avg: '$ratingsAverage' },
+          avgPrice: { $avg: '$price' },
+          minPrice: { $min: '$price' },
+          maxPrice: { $max: '$price' },
+        },
+      },
+    ]);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        stats,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'Fail',
+      message: err.message,
+    });
+  }
+};
 module.exports = {
   getAllTours,
   getTour,
@@ -130,6 +159,7 @@ module.exports = {
   deleteTour,
   getAliasTour,
   checkBody,
+  getTourStats,
 };
 //OLD STUFF FOR GET ALL TOURS WITH FILTERING
 // const queryObj = { ...req.query };
