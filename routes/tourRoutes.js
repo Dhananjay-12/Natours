@@ -9,10 +9,11 @@ const {
   deleteTour,
   getAliasTour,
   checkBody,
+  getTourStats,
 } = require('./../controllers/tourController');
 
 router.route('/top-5-cheap').get(getAliasTour, getAllTours);
-
+router.route('/tour-stats').get(getTourStats);
 //ALL TOURS
 
 router.route('/').get(getAllTours).post(checkBody, createTour);
