@@ -10,10 +10,12 @@ const {
   getAliasTour,
   checkBody,
   getTourStats,
+  getMonthlyPlan,
 } = require('./../controllers/tourController');
 
 router.route('/top-5-cheap').get(getAliasTour, getAllTours);
 router.route('/tour-stats').get(getTourStats);
+router.route('/monthly-plan/:year').get(getMonthlyPlan);
 //ALL TOURS
 
 router.route('/').get(getAllTours).post(checkBody, createTour);

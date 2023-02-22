@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const tourSchema = new mongoose.Schema({
   name: {
@@ -7,6 +8,7 @@ const tourSchema = new mongoose.Schema({
     trim: true,
     required: [true, 'A tour must have a name'],
   },
+  slug: String,
 
   duration: {
     type: Number,
@@ -56,6 +58,10 @@ const tourSchema = new mongoose.Schema({
   startDates: [Date],
 });
 
+tourSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
