@@ -11,7 +11,7 @@ const {
   checkBody,
 } = require('./../controllers/tourController');
 
-router.route('/top-5-cheap-tours').get(getAliasTour, getAllTours);
+router.route('/top-5-cheap').get(getAliasTour, getAllTours);
 
 //ALL TOURS
 
