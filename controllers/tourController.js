@@ -2,6 +2,7 @@ const fs = require('fs');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
+const AppError = require('../utils/appError');
 const checkBody = (req, res, next) => {
   if (!req.body.name || !req.body.price) {
     return res.status(400).json({
@@ -37,8 +38,11 @@ const getAllTours = catchAsync(async (req, res) => {
 });
 //PARTICULAR TOUR
 
-const getTour = catchAsync(async (req, res) => {
+const getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
+  if (!tour) {
+    return next(new AppError(`No data exist for id: ${req.params.id}`, 404));
+  }
   res.status(201).json({
     status: 'SUCCESS',
     data: {
@@ -59,17 +63,21 @@ const createTour = catchAsync(async (req, res) => {
   });
 });
 //UPDATE TOUR
-const updateTour = catchAsync(async (req, res) => {
+const updateTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
+  if (!tour) {
+    return next(new AppError(`No data exist for id: ${req.params.id}`, 404));
+  }
   res.status(200).json({ message: 'Data Updated Successfully', tour });
 });
 
 //DELETE TOUR
-const deleteTour = catchAsync(async (req, res) => {
-  await Tour.findByIdAndDelete(req.params.id);
+const deleteTour = catchAsync(async (req, res, next) => {
+  const tour = await Tour.findByIdAndDelete(req.params.id);
+
   res.status(204).json({
     message: 'Deleted Successfully',
     data: 'NULL',
