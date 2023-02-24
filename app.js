@@ -4,6 +4,7 @@ const morgan = require('morgan');
 
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const AppError = require('./utils/appError');
 
 if (process.env.NODE_ENV === 'developement') app.use(morgan('dev'));
 
@@ -18,10 +19,10 @@ app.all('*', (req, res, next) => {
   //   status: 'fail',
   //   message: `Cannot find ${req.originalUrl} on this server`,
   // });
-  const err = new Error(`Cannot find ${req.originalUrl} on this server`);
-  err.status = 'fail';
-  err.statusCode = 404;
-  next(err);
+  // const err = new Error(`Cannot find ${req.originalUrl} on this server`);
+  // err.status = 'fail';
+  // err.statusCode = 404;
+  next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
 
 app.use((err, req, res, next) => {
