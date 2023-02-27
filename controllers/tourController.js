@@ -20,7 +20,7 @@ const getAliasTour = (req, res, next) => {
   next();
 };
 
-const getAllTours = catchAsync(async (req, res) => {
+const getAllTours = catchAsync(async (req, res, next) => {
   //EXECUTE QUERY
   const features = new APIFeatures(Tour.find(), req.query)
     .filter()
@@ -55,7 +55,7 @@ const getTour = catchAsync(async (req, res, next) => {
 
 //CREATE A NEW TOUR
 
-const createTour = catchAsync(async (req, res) => {
+const createTour = catchAsync(async (req, res, next) => {
   const newTour = await Tour.create(req.body);
   res.status(201).json({
     message: 'SUCCESS',
@@ -86,7 +86,7 @@ const deleteTour = catchAsync(async (req, res, next) => {
   });
 });
 
-const getTourStats = catchAsync(async (req, res) => {
+const getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
       $match: { ratingsAverage: { $gte: 4.5 } },
@@ -114,7 +114,7 @@ const getTourStats = catchAsync(async (req, res) => {
   });
 });
 
-const getMonthlyPlan = catchAsync(async (req, res) => {
+const getMonthlyPlan = catchAsync(async (req, res, next) => {
   const year = req.params.year * 1; // 2021
 
   const plan = await Tour.aggregate([
