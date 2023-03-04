@@ -21,19 +21,19 @@ const getUser = (req, res) => {
 const createUser = (req, res) => {
   res.status(500).json({
     status: 'Error',
-    message: 'This route is not defined yet..',
+    message: 'This route is not defined yet 1..',
   });
 };
 const updateUser = (req, res) => {
   res.status(500).json({
     status: 'Error',
-    message: 'This route is not defined yet..',
+    message: 'This route is not defined yet 2..',
   });
 };
 const deleteUser = (req, res) => {
   res.status(500).json({
     status: 'Error',
-    message: 'This route is not defined yet..',
+    message: 'This route is not defined yet 3..',
   });
 };
 
