@@ -48,11 +48,8 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password)))
     return next(new AppError('Incorrect email or password', 401));
   //After all checks passed then send the final token back to client
-  const token = signToken(user._id);
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -167,19 +164,18 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  //1-> Get the user
-  const user = await User.findById(req.body.id).select('+password');
+  // 1) Get user from collection
+  const user = await User.findById(req.user.id).select('+password');
 
-  //2-> Check if password is correct
+  // 2) Check if POSTed current password is correct
+  console.log(req.body.passwordCurrent, user.password);
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
-    return next(new AppError('Your password is incorrect', 401));
+    return next(new AppError('Your current password is wrong.', 401));
   }
-  //3-> Update the password
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
-  //4-> Log the user in
 
+  // 4) Log user in, send JWT
   createSendToken(user, 200, res);
 });
-exports.updatePassword = (req, res, next) => {};
