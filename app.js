@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-
+const cookieParser = require('cookie-parser');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const AppError = require('./utils/appError');
@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'developement') app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
-
+app.use(cookieParser());
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
