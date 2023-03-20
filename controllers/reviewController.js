@@ -18,12 +18,9 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Review.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const review = await features.query;
+  let filter = {};
+  if (req.params.tourId) filter = { tour: req.params.tourId };
+  const review = await Review.find(filter);
   //SEND RESPONSE
   res.status(200).json({
     message: 'SUCCESS',
