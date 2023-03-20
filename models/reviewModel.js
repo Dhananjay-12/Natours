@@ -28,18 +28,23 @@ const reviewSchema = new mongoose.Schema(
     },
   },
   {
+    virtuals: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
 
 reviewSchema.pre(/^find/, function (next) {
+  // this.populate({
+  //   path: 'tour',
+  //   options: { select: 'name' },
+  // }).populate({
+  //   path: 'user',
+  //   options: { select: 'name photo' },
+  // });
   this.populate({
-    path: 'tour',
-    select: 'name',
-  }).populate({
     path: 'user',
-    select: 'name photo',
+    options: { select: 'name photo' },
   });
   next();
 });

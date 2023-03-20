@@ -95,10 +95,22 @@ const tourSchema = new mongoose.Schema(
     ],
   },
   {
+    virtuals: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
+
+// tourSchema.virtual('reviews', {
+//   ref: 'Review',
+//   foreignField: 'Tour',
+//   localField: '_id',
+// });
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  localField: '_id',
+  foreignField: 'tour',
+});
 
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
