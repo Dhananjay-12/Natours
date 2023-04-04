@@ -66,13 +66,14 @@ const createUser = (req, res) => {
     message: 'This route is not defined yet 1..',
   });
 };
-const updateUser = (req, res) => {
-  res.status(500).json({
-    status: 'Error',
-    message: 'This route is not defined yet 2..',
-  });
-};
+// const updateUser = (req, res) => {
+//   res.status(500).json({
+//     status: 'Error',
+//     message: 'This route is not defined yet 2..',
+//   });
+// };
 
+const updateUser = factory.updateOne(User);
 const deleteUser = factory.deleteOne(User);
 // const deleteUser = (req, res) => {
 //   res.status(500).json({
