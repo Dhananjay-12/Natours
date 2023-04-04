@@ -3,6 +3,8 @@ const Tour = require('./../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
+
 const checkBody = (req, res, next) => {
   if (!req.body.name || !req.body.price) {
     return res.status(400).json({
@@ -77,14 +79,17 @@ const updateTour = catchAsync(async (req, res, next) => {
 });
 
 //DELETE TOUR
-const deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
 
-  res.status(204).json({
-    message: 'Deleted Successfully',
-    data: 'NULL',
-  });
-});
+const deleteTour = factory.deleteOne(Tour);
+
+// const deleteTour = catchAsync(async (req, res, next) => {    //////OLD WAY
+//   const tour = await Tour.findByIdAndDelete(req.params.id);
+
+//   res.status(204).json({
+//     message: 'Deleted Successfully',
+//     data: 'NULL',
+//   });
+// });
 
 const getTourStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
