@@ -101,11 +101,7 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
-// tourSchema.virtual('reviews', {
-//   ref: 'Review',
-//   foreignField: 'Tour',
-//   localField: '_id',
-// });
+//virtual populate
 tourSchema.virtual('reviews', {
   ref: 'Review',
   localField: '_id',
