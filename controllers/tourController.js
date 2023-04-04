@@ -67,16 +67,18 @@ const createTour = catchAsync(async (req, res, next) => {
   });
 });
 //UPDATE TOUR
-const updateTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (!tour) {
-    return next(new AppError(`No data exist for id: ${req.params.id}`, 404));
-  }
-  res.status(200).json({ message: 'Data Updated Successfully', tour });
-});
+const updateTour = factory.updateOne(Tour);
+
+// const updateTour = catchAsync(async (req, res, next) => {
+//   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   if (!tour) {
+//     return next(new AppError(`No data exist for id: ${req.params.id}`, 404));
+//   }
+//   res.status(200).json({ message: 'Data Updated Successfully', tour });
+// });
 
 //DELETE TOUR
 
