@@ -1,6 +1,7 @@
 const Review = require('./../models/reviewModel');
 const catchAsync = require('./../utils/catchAsync');
 const APIFeatures = require('../utils/apiFeatures');
+const factory = require('./handlerFactory');
 const { request } = require('express');
 
 exports.createReview = catchAsync(async (req, res, next) => {
@@ -24,8 +25,11 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
   //SEND RESPONSE
   res.status(200).json({
     message: 'SUCCESS',
+    results: review.length,
     data: {
       review,
     },
   });
 });
+
+exports.deleteReview = factory.deleteOne(Review);
