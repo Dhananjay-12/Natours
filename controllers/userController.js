@@ -38,19 +38,23 @@ const deleteMe = catchAsync(async (req, res, next) => {
   res.status(204).json({ status: 'SUCCESS', data: null });
 });
 
-const getUser = (req, res) => {
-  res.status(500).json({
-    status: 'Error',
-    message: 'This route is not defined yet..',
-  });
-};
+// const getUser = (req, res) => {
+//   res.status(500).json({
+//     status: 'Error',
+//     message: 'This route is not defined yet..',
+//   });
+// };
+const getUser = factory.getOne(User);
 const createUser = (req, res) => {
   res.status(500).json({
     status: 'Error',
     message: 'This route is not defined yet 1..',
   });
 };
-
+const getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
 const updateUser = factory.updateOne(User);
 const deleteUser = factory.deleteOne(User);
 
@@ -60,6 +64,7 @@ module.exports = {
   deleteMe,
   getUser,
   createUser,
+  getMe,
   updateUser,
   deleteUser,
 };
