@@ -8,10 +8,12 @@ const {
   createUser,
   updateUser,
   deleteUser,
+  getMe,
   updateMe,
   deleteMe,
 } = require('./../controllers/userController');
 
+router.get('/me', authController.protect, getMe, getUser);
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
